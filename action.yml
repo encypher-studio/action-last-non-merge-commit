@@ -1,0 +1,21 @@
+name: "Last non-merge commit"
+description: "Get the last non-merge commit"
+outputs:
+  value:
+    description: "The last non-merge commit"
+    value: ${{ steps.calculation.outputs.value }}
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+        ref: ${{ github.sha }}
+    - name: Set last non-merge commit
+      id: calculation
+      run: |
+        # Execute your command and capture its output (e.g., using a variable)
+        value=$(git rev-list --no-merges -n 1 HEAD)
+        Last non-merge commit: echo $value
+        echo "value=$value" >> $GITHUB_OUTPUT
+      shell: bash
