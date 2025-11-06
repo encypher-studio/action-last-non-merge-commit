@@ -16,6 +16,6 @@ runs:
       run: |
         # Execute your command and capture its output (e.g., using a variable)
         value=$(git rev-list --no-merges -n 1 HEAD)
-        Last non-merge commit: echo $value
+        echo "Last non-merge commit: $value"
         echo "value=$value" >> $GITHUB_OUTPUT
       shell: bash
