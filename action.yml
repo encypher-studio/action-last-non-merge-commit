@@ -6,6 +6,10 @@ inputs:
     description: "Run checkout action (if false, checkout should be called in previous step with fetch-depth: 0)"
     required: true
     default: true
+  working-directory:
+    name: "Working directory"
+    description: "Using the working-directory keyword, you can specify the working directory of where to run the command."
+    required: false
 outputs:
   value:
     description: "The last non-merge commit"
@@ -15,11 +19,13 @@ runs:
   steps:
     - uses: actions/checkout@v5
       if: ${{ inputs.checkout == 'true' }}
+      working-directory: ${{ inputs.working-directory }}
       with:
         fetch-depth: 0
         ref: ${{ github.sha }}
     - name: Set last non-merge commit
       id: calculation
+      working-directory: ${{ inputs.working-directory }}
       run: |
         # Execute your command and capture its output (e.g., using a variable)
         value=$(git rev-list --no-merges -n 1 HEAD)
